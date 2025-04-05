@@ -1,0 +1,123 @@
+extends layout
+
+block content
+  .container.mt-5
+    // Carousel
+    .row
+      .col-md-12
+        .carousel.slide#carouselExampleIndicators(data-ride='carousel')
+          ol.carousel-indicators
+            li(data-target='#carouselExampleIndicators', data-slide-to='0', class='active')
+            li(data-target='#carouselExampleIndicators', data-slide-to='1')
+            li(data-target='#carouselExampleIndicators', data-slide-to='2')
+          .carousel-inner
+            .carousel-item.active
+              img.d-block.w-100(src='/images/dance1.jpg', alt='First slide')
+            .carousel-item
+              img.d-block.w-100(src='/images/dance2.jpg', alt='Second slide')
+            .carousel-item
+              img.d-block.w-100(src='/images/dance3.jpg', alt='Third slide')
+          a.carousel-control-prev(href='#carouselExampleIndicators', role='button', data-slide='prev')
+            span.carousel-control-prev-icon(aria-hidden='true')
+            span.sr-only Previous
+          a.carousel-control-next(href='#carouselExampleIndicators', role='button', data-slide='next')
+            span.carousel-control-next-icon(aria-hidden='true')
+            span.sr-only Next
+
+    // Welcome Section
+    .row.my-5
+      .col-md-12.text-center
+        h1.display-4.mb-3 Welcome to Our Dance Classes
+        p.lead Learn and master various dance styles with our expert instructors. Join us today!
+
+    // Dance Styles Cards
+    .row.my-4
+      .col-md-4
+        .card.border-light.shadow-sm
+          img.card-img-top(src='/images/style1.jpeg', alt='Dance Style 1')
+          .card-body
+            h5.card-title Punjabi Bhangra 
+            p.card-text "Bhangra was originally dedicated to harvesting but later changed its shape with some modernization, changing musical equipment and evolving dancing patterns. Bhangra’s energy with a traditional Punjabi Dhol and Jhanjhar has gradually become popular across all Indian states."
+            a.btn.btn-outline-primary(href='#') Learn More
+      .col-md-4
+        .card.border-light.shadow-sm
+          img.card-img-top(src='/images/style2.jpeg', alt='Dance Style 2')
+          .card-body
+            h5.card-title Giddha
+            p.card-text "Giddha is played by Punjab's young women.Performed in a large circle, Giddha's singing is called “Boli or Biloyan,” usually utilizing emotional expressions.The dance is a family show with all the women making a beautiful presentation with regular singing and dancing. "
+            a.btn.btn-outline-primary(href='#') Learn More
+      .col-md-4
+        .card.border-light.shadow-sm
+          img.card-img-top(src='/images/style3.jpeg', alt='Dance Style 3')
+          .card-body
+            h5.card-title Jhoomer
+            p.card-text "Jhoomer is known for his passion and vivacity. It originated from the regions Balochistan and Multan. The dance is slow and rhythmic in tempo. The word Jhumur derives from “Jhoom” which means swaying gently. The performances usually focus on love and other emotions."
+            a.btn.btn-outline-primary(href='#') Learn More
+      
+
+
+
+    // Google Map Section
+    .row.my-5
+      .col-md-12
+        h2.text-center.mb-4 Find Nearby Dance Studios
+        #map-container(style='height: 400px; width: 100%; border: 1px solid #ddd;')
+
+  // Google Maps API Script
+  script.
+    function loadGoogleMapsAPI(callback) {
+        const script = document.createElement('script');
+        script.src = `https://maps.googleapis.com/maps/api/js?key=#{mapApiKey}&callback=${callback}&libraries=places`;
+        script.async = true;
+        script.defer = true;
+        script.onerror = function() {
+            console.error('Google Maps API failed to load');
+        };
+        document.body.appendChild(script);
+    }
+
+    function initMap() {
+        const map = new google.maps.Map(document.getElementById('map-container'), {
+            center: { lat: 43.82595886205766, lng: -79.53913318308567 },
+            zoom: 15
+        });
+
+        displayNearbyDanceStudios(map);
+    }
+
+    function displayNearbyDanceStudios(map) {
+        const request = {
+            location: { lat: 43.82595886205766, lng: -79.53913318308567 },
+            radius: 2000,
+            type: 'gym',
+        };
+
+        const service = new google.maps.places.PlacesService(map);
+        service.nearbySearch(request, (results, status) => {
+            if (status === google.maps.places.PlacesServiceStatus.OK) {
+                for (let i = 0; i < results.length; i++) {
+                    const place = results[i];
+                    const marker = new google.maps.Marker({
+                        position: place.geometry.location,
+                        map: map,
+                        title: place.name,
+                        label: {
+                            text: place.name,
+                            color: 'black',
+                            fontSize: '12px',
+                            fontWeight: 'bold'
+                        }
+                    });
+                    google.maps.event.addListener(marker, 'click', function() {
+                        window.location.href = `https://www.google.com/maps/search/?api=1&query=${place.name}&query_place_id=${place.place_id}`;
+                    });
+                }
+            } else {
+                console.error('Error fetching nearby dance studios:', status);
+            }
+        });
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+        loadGoogleMapsAPI('initMap');
+    });

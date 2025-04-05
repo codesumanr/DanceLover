@@ -1,0 +1,27 @@
+extends layout
+
+block content
+  .container.mt-4
+    // Video Section
+    .row
+      .col-md-12
+        h1.text-center Latest Dance Videos
+        p.text-center Explore the latest dance videos from our channel.
+
+    .row
+      each video in videos
+        .col-md-4
+          .card.mb-4
+            iframe.card-img-top(src=`https://www.youtube.com/embed/${video.id.videoId}`, allowfullscreen, width='100%', height='215')
+            .card-body
+              h5.card-title= video.snippet.title
+
+    // Pagination controls
+    .d-flex.justify-content-center.mt-4
+      ul.pagination
+        if prevPageToken
+          li.page-item
+            a.page-link(href=`/videos?pageToken=${prevPageToken}`) Previous
+        if nextPageToken
+          li.page-item
+            a.page-link(href=`/videos?pageToken=${nextPageToken}`) Next
