@@ -26,11 +26,13 @@ DanceLover is a web application designed to help users discover nearby dance stu
  # Environment Variables
 Create a .env file in the root of your project and add the following variables, replacing the placeholder values with your actual credentials:
 
-# Google API Keys (Ensure the key(s) have necessary APIs enabled and restricted)
+# Google API Keys 
 YOUTUBE_API_KEY=your_youtube_api_key
+
 GOOGLE_MAPS_API_KEY=your_google_maps_api_key
 
-# MongoDB Connection String
+MongoDB Connection String
+
 MONGODB_URI=your_mongodb_connection_string_here
 
 # Port for the server to run on
