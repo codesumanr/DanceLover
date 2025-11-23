@@ -1,5 +1,5 @@
 # DanceLover
-DanceLover is a web application designed to help users discover nearby dance studios using Google Maps and watch curated dance videos via the YouTube API. Built with Node.js, Express.js, MongoDB, and Pug.
+DanceLover is a web application designed to help users discover nearby dance studios using Google Maps and watch curated dance videos via the YouTube API. Built with Node.js, Express.js, MongoDB, and Pug  (MERN).
 
 ## Features
 -   *Find Nearby Studios*: Enter your location to search for dance studios, displayed visually on an interactive Google Map.
